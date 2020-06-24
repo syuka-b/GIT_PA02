@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     private CharacterController thisController;
     [SerializeField] private float JumpValue = 10;
     [SerializeField] private float Gravity = 10;
+    [SerializeField] private Text Txt_Message = null;
 
     private bool Jump = false;
     private Vector3 MoveDirection = Vector3.zero;
     private Transform playerMesh = null;
     private Animator thisAnimator = null;
+    public Transform Prefab_Explosion;
+
+    private int life = 3;
 
     private float moveSpeed = 0.05f;
 
@@ -52,6 +57,20 @@ public class Player : MonoBehaviour
 
         thisController.Move(MoveDirection);
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.5f, 1.5f), transform.position.y, transform.position.z);
+
+        
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+       if (other.gameObject.tag == "Object")
+        {
+            Transform effect = Instantiate(Prefab_Explosion) as Transform;
+            Time.timeScale = 0;
+            GameManager.CurrentState = GameManager.GameState.GameOver;
+            Txt_Message.color = Color.red;
+            Txt_Message.text = "GAME OVER! \n PRESS ENTER TO RESTART GAME.";
+
+        }
     }
 
 }
