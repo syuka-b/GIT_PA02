@@ -23,7 +23,7 @@ public class HUD : MonoBehaviour
     //updates the number of hearts for lives
     public void UpdateLives()
     {
-        Image_Lives.rectTransform.sizeDelta = new Vector2(GameManager.Lives * 50, 30);
+        Image_Lives.rectTransform.sizeDelta = new Vector2(GameManager.Lives * 50, 50);
     }
 
     public void GameOver()

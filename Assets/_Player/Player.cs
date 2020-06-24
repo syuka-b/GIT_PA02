@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float JumpValue = 10;
     [SerializeField] private float Gravity = 10;
     [SerializeField] private Text Txt_Message = null;
+    [SerializeField] private Image Image_Lives = null;
 
     private bool Jump = false;
     private Vector3 MoveDirection = Vector3.zero;
@@ -64,13 +65,22 @@ public class Player : MonoBehaviour
     {
        if (other.gameObject.tag == "Object")
         {
+            life--;
+            Image_Lives.rectTransform.sizeDelta = new Vector2(GameManager.Lives * 35, 30);
             Transform effect = Instantiate(Prefab_Explosion) as Transform;
-            Time.timeScale = 0;
-            GameManager.CurrentState = GameManager.GameState.GameOver;
-            Txt_Message.color = Color.red;
-            Txt_Message.text = "GAME OVER! \n PRESS ENTER TO RESTART GAME.";
+            if (life == 1)
+                Image_Lives.rectTransform.sizeDelta = new Vector2(GameManager.Lives * 15, 30);
+            else if (life == 0)
+            {
+                Image_Lives.rectTransform.sizeDelta = new Vector2(GameManager.Lives * 0, 30);
+                Time.timeScale = 0;
+                GameManager.CurrentState = GameManager.GameState.GameOver;
+                Txt_Message.color = Color.red;
+                Txt_Message.text = "GAME OVER! \n PRESS ENTER TO RESTART GAME.";
 
+            }
         }
+       
     }
 
 }
